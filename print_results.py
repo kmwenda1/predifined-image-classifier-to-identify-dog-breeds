@@ -68,13 +68,12 @@ def print_results(results_dic, results_stats_dic, model,
         # dog vs notdog classifications and print out
         for key in results_dic:
 
-            # Pet Image Label is a Dog - Classified as NOT-A-DOG - INCORRECT
+            # sum(idx3 + idx4) == 1 is the ONLY mismatch case:
+            #   PetLabelDog=1, ClassLabelDog=0  (a dog was missed)
+            #   PetLabelDog=0, ClassLabelDog=1  (a non-dog misclassified as dog)
+            # sum == 0 (both agree not-a-dog) and sum == 2 (both agree is-a-dog)
+            # are CORRECT dog/not-dog assignments and must NOT be printed here.
             if sum(results_dic[key][3:]) == 1:
-                print("Real: %-26s   Classifier: %-30s" %
-                      (results_dic[key][0], results_dic[key][1]))
-
-            # Pet Image Label is NOT-a-Dog - Classified as a-DOG - INCORRECT
-            if sum(results_dic[key][3:]) == 2:
                 print("Real: %-26s   Classifier: %-30s" %
                       (results_dic[key][0], results_dic[key][1]))
 
