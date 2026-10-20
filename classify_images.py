@@ -11,6 +11,7 @@
 ##
 # Imports classifier function for using CNN to classify images 
 from classifier import classifier 
+from label_matching import is_label_match
 
 def classify_images(images_dir, results_dic, model):
     """
@@ -51,9 +52,9 @@ def classify_images(images_dir, results_dic, model):
         # Gets pet image label already stored at index 0
         truth = results_dic[key][0]
 
-        # Checks whether pet label appears as a whole term within the 
+        # Checks whether pet label matches as a whole word/phrase within the
         # classifier label string (which may be comma-separated synonyms)
-        if truth in model_label:
+        if is_label_match(truth, model_label):
             # Match found - add classifier label and match=1 to results_dic
             results_dic[key].extend((model_label, 1))
         else:
